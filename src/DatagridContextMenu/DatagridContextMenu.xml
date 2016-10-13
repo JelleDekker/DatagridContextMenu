@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="DatagridContextMenu.widget.DatagridContextMenu" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>DatagridContextMenu</name>
+    <description>The description of this widget.</description>
+
+    <icon>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</icon>
+
+    <properties>
+        <property key="datagridIdentifier" type="string" required="true" defaultValue="">
+            <caption>DataGrid identifier</caption>
+            <category>Settings</category>
+            <description>Provide a unique datagrid identifier using css classes. E.g. ".mx-name-grid1"</description>
+        </property>
+        <property key="buttonsExclude" type="string" required="false" defaultValue="">
+            <caption>Buttons to exclude</caption>
+            <category>Settings</category>
+            <description>The button(s) you wish to exclude, use the Mendix "Caption" and seperate list using ",". (optional)</description>
+        </property>
+    </properties>
+</widget>

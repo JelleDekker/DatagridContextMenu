@@ -1,0 +1,22 @@
+.DatagridContextMenu > ul {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    background: #eee;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 10px 0;
+}
+
+.DatagridContextMenu > ul > li {
+  padding: 3px 10px;
+}
+
+.DatagridContextMenu > ul > li:hover {
+  background: #ccc;
+  cursor: pointer;
+}
+
+.DatagridContextMenu > ul.active {
+  display: block;
+}
