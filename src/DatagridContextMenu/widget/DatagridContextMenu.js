@@ -49,35 +49,25 @@ define([
     buttonsExclude: "",
 
     // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
-    _handles: null,
-    _contextObj: null,
-    _alertDiv: null,
-    _readOnly: false,
     _dataGrid: null,
     _buttons: null,
 
     // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
     constructor: function() {
       logger.debug(this.id + ".constructor");
-      this._handles = [];
     },
 
     // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
     postCreate: function() {
       logger.debug(this.id + ".postCreate");
 
-      if (this.readOnly || this.get("disabled") || this.readonly) {
-        this._readOnly = true;
-      }
     },
 
     // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
     update: function(obj, callback) {
       logger.debug(this.id + ".update");
 
-      this._contextObj = obj;
       this._setupEvents();
-      this._resetSubscriptions();
       mendix.lang.nullExec(callback); // We're passing the callback to updateRendering to be called after DOM-manipulation
     },
 
@@ -205,27 +195,6 @@ define([
     _hideContextMenu: function() {
       logger.debug(this.id + ".hideContextMenu");
       dojoClass.remove(this.contextMenuList, 'active');
-    },
-
-    _unsubscribe: function() {
-      if (this._handles) {
-        dojoArray.forEach(this._handles, function(handle) {
-          mx.data.unsubscribe(handle);
-        });
-        this._handles = [];
-      }
-    },
-
-    // Reset subscriptions.
-    _resetSubscriptions: function() {
-      logger.debug(this.id + "._resetSubscriptions");
-      // Release handles on previous object, if any.
-      this._unsubscribe();
-
-      // When a mendix object exists create subscribtions.
-      if (this._contextObj) {
-        this._handles = [];
-      }
     }
   });
 });
