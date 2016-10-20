@@ -4,15 +4,15 @@
     ========================
 
     @file      : DatagridContextMenu.js
-    @version   : 1.0.0
+    @version   : 1.0.1
     @author    : Jelle Dekker
-    @date      : 10/6/2016
+    @date      : 2016/10/20
     @copyright : Bizzomate 2016
     @license   : Apache 2
 
     Documentation
     ========================
-    Describe your widget here.
+    Mendix widget that adds a context menu to the datagrid, based on the buttons in the datagrid toolbar.
 */
 
 // Required module list. Remove unnecessary modules, you can always get them back from the boilerplate.
@@ -159,7 +159,7 @@ define([
           self.connect(popUpButton, "click", function(e){
             self._hideContextMenu();
             button.click();
-          })
+          });
         }
       });
     },
@@ -193,7 +193,7 @@ define([
 
     //Hide the context-menu from the user
     _hideContextMenu: function() {
-      logger.debug(this.id + ".hideContextMenu");
+      logger.debug(this.id + "._hideContextMenu");
       dojoClass.remove(this.contextMenuList, 'active');
     }
   });
