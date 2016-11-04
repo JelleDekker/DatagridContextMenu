@@ -4,7 +4,7 @@
     ========================
 
     @file      : DatagridContextMenu.js
-    @version   : 1.0.1
+    @version   : 1.1.0
     @author    : Jelle Dekker
     @date      : 2016/10/20
     @copyright : Bizzomate 2016
@@ -47,6 +47,7 @@ define([
     // Parameters configured in the Modeler.
     datagridIdentifier: "",
     buttonsExclude: "",
+    removeLabels: "",
 
     // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
     _dataGrid: null,
@@ -160,6 +161,11 @@ define([
             self._hideContextMenu();
             button.click();
           });
+          if (self.removeLabels === true){
+            var span = dojoQuery('span', button)[0];
+            dojoConstruct.empty(button);
+            dojoConstruct.place(span, button);
+          }
         }
       });
     },

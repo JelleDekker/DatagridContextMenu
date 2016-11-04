@@ -16,5 +16,10 @@
             <category>Settings</category>
             <description>The button(s) you wish to exclude, use the Mendix "Caption" and seperate list using ",". (optional)</description>
         </property>
+        <property key="removeLabels" type="boolean" required="true" defaultValue="false">
+          <caption>Remove labels</caption>
+          <category>Settings</category>
+          <description>Remove the labels from the buttons. Can be used to only display glyphicons in the toolbar, but show the buttons including label in the context menu.</description>
+        </property>
     </properties>
 </widget>
