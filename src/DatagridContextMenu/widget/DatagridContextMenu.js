@@ -163,6 +163,9 @@ define([
           });
           if (self.removeLabels === true){
             var span = dojoQuery('span', button)[0];
+            if (button.title.length == 0){
+              button.title = button.innerHTML.replace(/.*<\/span> */, '');
+            }
             dojoConstruct.empty(button);
             dojoConstruct.place(span, button);
           }
