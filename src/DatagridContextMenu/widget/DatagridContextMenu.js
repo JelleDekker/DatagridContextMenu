@@ -52,9 +52,12 @@ define([
     // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
     _dataGrid: null,
     _buttons: null,
+    _contextMenuReady: null,
 
     // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
     constructor: function() {
+      // Uncomment the following line to enable debug messages
+      //logger.level(logger.DEBUG);
       logger.debug(this.id + ".constructor");
     },
 
@@ -136,9 +139,10 @@ define([
 
       this._dataGrid = dojoQuery(this.datagridIdentifier);
       this._buttons = dojoQuery(this.datagridIdentifier + " .mx-grid-toolbar .mx-button");
-      if (this._buttons.length > 0) {
-        dojoClass.remove(this._dataGrid, this.datagridIdentifier);
+      if (this._buttons.length > 0 && this._contextMenuReady !== true) {
         this._buildContextMenu();
+      } else if (this._contextMenuReady === true){
+        logger.debug(this.id + "._findToolbar >> skipping _buildContextMenu because it's already built.")
       } else {
         console.log(this.id + " toolbar for " + this.datagridIdentifier + " not found");
       }
@@ -171,6 +175,8 @@ define([
           }
         }
       });
+
+      this._contextMenuReady = true;
     },
 
     //Check if click happened in our datagrid-body or not
