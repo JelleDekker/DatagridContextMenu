@@ -30,9 +30,10 @@ define([
   "dojo/_base/array",
   "dojo/_base/event",
   "dojo/query",
+  "dojo/_base/lang",
 
   "dojo/text!DatagridContextMenu/widget/template/DatagridContextMenu.html"
-], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoEvent, dojoQuery, widgetTemplate) {
+], function(declare, _WidgetBase, _TemplatedMixin, dom, dojoDom, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoEvent, dojoQuery, dojoLang, widgetTemplate) {
   "use strict";
 
   // Declare widget's prototype.
@@ -108,29 +109,34 @@ define([
     // Attach events to HTML dom elements
     _setupEvents: function() {
       logger.debug(this.id + "._setupEvents");
-      var self = this;
 
       this.connect(this.mxform, "onNavigation", function() {
         this._findToolbar();
 
         //Connect the handler to replace the browser contextmenu with our own when applicable
-        this.connect(document, "contextmenu", function(e) {
-          if (self._clickOnDatagrid(e)) {
-            e.preventDefault();
-            self._showContextMenu(e);
-          } else {
-            self._hideContextMenu();
-          }
-        });
+        this.connect(document, "contextmenu", dojoLang.hitch(this, this._handleRightClick));
 
         //Connect the handler to hide our own contextmenu when the user clicks outside of it
-        this.connect(document, "click", function(e){
-          if (!dojoDom.isDescendant(e.target, self.contextMenuList)){
-            self._hideContextMenu();
-          }
-        })
+        this.connect(document, "click", dojoLang.hitch(this, this._handleLeftClick));
       });
 
+    },
+
+    //Show or hide the contextMenu on right click
+    _handleRightClick: function(e){
+      if (this._clickOnDatagrid(e)) {
+        e.preventDefault();
+        this._showContextMenu(e);
+      } else {
+        this._hideContextMenu();
+      }
+    },
+
+    //Hide the contextMenu when the user left clicks outside the contextMenu
+    _handleLeftClick: function(e){
+      if (!dojoDom.isDescendant(e.target, this.contextMenuList)){
+        this._hideContextMenu();
+      }
     },
 
     //Find the Mx Toolbar that we're going to extend
@@ -152,31 +158,29 @@ define([
     _buildContextMenu: function() {
       logger.debug(this.id + "._buildContextMenu");
 
-      var
-        self = this,
-        contextMenuList = this.contextMenuList;
-
-      dojoArray.forEach(this._buttons, function(button) {
-        if (self.buttonsExclude.indexOf(button.innerHTML.trim()) == -1) {
-          var popUpButton = dojoConstruct.create("li", {
-            innerHTML: button.innerHTML
-          }, contextMenuList);
-          self.connect(popUpButton, "click", function(e){
-            self._hideContextMenu();
-            button.click();
-          });
-          if (self.removeLabels === true){
-            var span = dojoQuery('span', button)[0];
-            if (button.title.length == 0){
-              button.title = button.innerHTML.replace(/.*<\/span> */, '');
-            }
-            dojoConstruct.empty(button);
-            dojoConstruct.place(span, button);
-          }
-        }
-      });
-
+      dojoArray.forEach(this._buttons, dojoLang.hitch(this, this._processContextMenuButton));
       this._contextMenuReady = true;
+    },
+
+    //Build the contextMenu buttons
+    _processContextMenuButton: function(button){
+      if (this.buttonsExclude.indexOf(button.innerHTML.trim()) == -1) {
+        var popUpButton = dojoConstruct.create("li", {
+          innerHTML: button.innerHTML
+        }, this.contextMenuList);
+        this.connect(popUpButton, "click", function(e){
+          this._hideContextMenu();
+          button.click();
+        });
+        if (this.removeLabels === true){
+          var span = dojoQuery('span', button)[0];
+          if (button.title.length == 0){
+            button.title = button.innerHTML.replace(/.*<\/span> */, '');
+          }
+          dojoConstruct.empty(button);
+          dojoConstruct.place(span, button);
+        }
+      }
     },
 
     //Check if click happened in our datagrid-body or not
