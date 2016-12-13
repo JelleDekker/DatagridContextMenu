@@ -188,8 +188,8 @@ define([
       var
         activeRow = dojoQuery('.mx-grid-content .mx-datagrid-body-table .selected', this._dataGrid[0]),
         parentPosition = dojoGeometry.position(this.contextMenuParent),
-        posLeft = e.pageX - parentPosition.x,
-        posTop = e.pageY - parentPosition.y;
+        posLeft = e.clientX - parentPosition.x,
+        posTop = e.clientY - parentPosition.y;
 
       if (activeRow == null || !dojoDom.isDescendant(e.target, activeRow[0])){
         e.target.click();
