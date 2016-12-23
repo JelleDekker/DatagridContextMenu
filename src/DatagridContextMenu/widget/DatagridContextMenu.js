@@ -153,7 +153,7 @@ define([
       logger.debug(this.id + "._buildContextMenu");
 
       dojoArray.forEach(this._buttons, dojoLang.hitch(this, function(button){
-        if (this.buttonsExclude.indexOf(button.innerHTML.trim()) == -1) {
+        if (!dojoClass.contains(button, this.buttonsExclude)) {
           var popUpButton = dojoConstruct.create("li", {
             innerHTML: button.innerHTML
           }, this.contextMenuList);
