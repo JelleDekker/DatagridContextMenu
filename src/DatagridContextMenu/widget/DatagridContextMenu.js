@@ -178,7 +178,7 @@ define([
     _clickOnDatagrid: function(e) {
       logger.debug(this.id + "._clickOnDatagrid");
       var
-        datagridBody = dojoQuery('.mx-grid-content .mx-datagrid-body-table', this._dataGrid[0]);
+        datagridBody = dojoQuery('.mx-grid-content', this._dataGrid[0]);
       return dojoDom.isDescendant(e.target, datagridBody[0]);
     },
 
@@ -186,7 +186,7 @@ define([
     _showContextMenu: function(e) {
       logger.debug(this.id + "._showContextMenu");
       var
-        activeRow = dojoQuery('.mx-grid-content .mx-datagrid-body-table .selected', this._dataGrid[0]),
+        activeRow = dojoQuery('.mx-grid-content .selected', this._dataGrid[0]),
         parentPosition = dojoGeometry.position(this.contextMenuParent),
         posLeft = e.clientX - parentPosition.x,
         posTop = e.clientY - parentPosition.y;
