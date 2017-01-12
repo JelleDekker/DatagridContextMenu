@@ -3,7 +3,7 @@ This widget replaces the browser context menu with the actions from the toolbar 
 It's possible to excule certain buttons (e.g. the search switch) from the menu.
 
 ##Typical usage scenario
-Use this to give the user an extra interaction-option on a datagrid.
+Use this to give the user an extra interaction-option on a datagrid, template grid or reference set selector.
 
 ##Features and limitations
 * Has to be configured for each datagrid on which you want to use it.
