@@ -49,6 +49,7 @@ define([
     datagridIdentifier: "",
     buttonsExclude: "",
     removeLabels: "",
+    runInDebug: "",
 
     // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
     _dataGrid: null,
@@ -59,6 +60,7 @@ define([
     constructor: function() {
       // Uncomment the following line to enable debug messages
       //logger.level(logger.DEBUG);
+
       logger.debug(this.id + ".constructor");
     },
 
@@ -111,6 +113,9 @@ define([
       logger.debug(this.id + "._setupEvents");
 
       this.connect(this.mxform, "onNavigation", function() {
+        if (/Trident/i.test(navigator.userAgent)){
+          return;
+        }
         this._findToolbar();
 
         //Connect the handler to replace the browser contextmenu with our own when applicable
